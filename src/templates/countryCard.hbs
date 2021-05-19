@@ -1,4 +1,5 @@
 <div class="card">
+    {{#each this}}
     <div class="flag-img">
         <img src="{{flag}}" alt="{{name}}">
     </div>
@@ -9,8 +10,9 @@
         <p class="languages"><b>Languages: </b></p>
         <ul class="list-languages">
         {{#each languages}}
-        <li class="list-group-item">{{languages.name}}</li>
+        <li class="list-group-item">{{name}}</li>
         {{/each}}
         </ul>
     </div>
+    {{/each}}
 </div>
