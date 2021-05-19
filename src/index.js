@@ -1,17 +1,15 @@
 import countryCardTmpl from './templates/countryCard.hbs';
 import countryListTmpl from './templates/countriesList.hbs';
-import fetchCountries from './fetchCountries.js';
+import getRefs from './getRefs';
+import API from './fetchCountries';
 import debounce from 'lodash.debounce';
 import { error } from '@pnotify/core';
 import './sass/main.scss';
 
-//рефы в отд файл запихнуть
-const refs = {
-  cardContainer: document.querySelector('.js-card-container'),
-  searchForm: document.querySelector('.text-input'),
-};
+//рефы в отд файл запихнуть+
+const refs = getRefs();
 // добавить коллбек ну хоть дебаунс работает))
-refs.searchForm.addEventListener('input', debounce(onSearch, 500));
+refs.searchForm.addEventListener('input', debounce(onSearch, 3000));
 
 function onSearch(e) {
   e.preventDefault();
@@ -19,13 +17,9 @@ function onSearch(e) {
   // const form = e.currentTarget;
   // const searchQuery = form.elements.query.value;
   // или так
-  // const form = e.target.value;
+  const searchQuery = e.target.value;
 
-  fetchCountries()
-    .then(renderCountryCard)
-    .catch(error => {
-      console.log(error);
-    });
+  API.fetchCountries(searchQuery).then(renderCountryCard).catch(onFetchError);
 }
 // ====== перенесла выше
 // fetchCountries().then(renderCountryCard);
@@ -38,11 +32,14 @@ function onSearch(e) {
 // }
 
 // что здесь передавать в функцию?
-function renderCountryCard(a) {
-  const markUp = countryCardTmpl(a);
+function renderCountryCard(searchQuery) {
+  const markUp = countryCardTmpl(searchQuery);
   refs.cardContainer.innerHTML = markUp;
 }
 
 // const myError = error({
 //   text: "I'm an error message.",
 // });
+function onFetchError(error) {
+  alert('Хуита вышла');
+}
