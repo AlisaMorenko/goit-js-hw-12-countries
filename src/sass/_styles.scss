@@ -1,0 +1,37 @@
+img {
+  width: 400px;
+}
+
+.js-card-container {
+  margin-left: center;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+.text-input {
+  display: block;
+  width: 400px;
+  font-size: 36px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.card-body {
+  margin-right: 20px;
+}
+
+.card-title,
+.contries-list {
+  font-size: 36px;
+}
+
+.capital,
+.population,
+.languages {
+  font-size: 24px;
+}
+
+.list-languages {
+  font-size: 18px;
+}

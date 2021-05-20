@@ -3,43 +3,47 @@ import countryListTmpl from './templates/countriesList.hbs';
 import getRefs from './getRefs';
 import API from './fetchCountries';
 import debounce from 'lodash.debounce';
+import '@pnotify/core/dist/BrightTheme.css';
 import { error } from '@pnotify/core';
 import './sass/main.scss';
 
-//рефы в отд файл запихнуть+
 const refs = getRefs();
-// добавить коллбек ну хоть дебаунс работает))
-refs.searchForm.addEventListener('input', debounce(onSearch, 3000));
+refs.searchForm.addEventListener('input', debounce(onSearch, 500));
 
 function onSearch(e) {
   e.preventDefault();
-  // как писать так?
-  // const form = e.currentTarget;
-  // const searchQuery = form.elements.query.value;
-  // или так
   const searchQuery = e.target.value;
+  // сделать, чтобы значение скидывалось после удаления запроса
 
-  API.fetchCountries(searchQuery).then(renderCountryCard).catch(onFetchError);
+  API.fetchCountries(searchQuery)
+    .then(countries => {
+      if (countries.length === 1) {
+        renderCountryCard(countries);
+      } else if (countries.length <= 10) {
+        renderCountriesList(countries);
+      } else if (countries.length > 10) {
+        error({
+          text: 'Too many matches found! Please enter a more spesific query!',
+        });
+      }
+    })
+    .catch
+    // alert({
+    //   text: 'No country found! Please enter another request!',
+    // }),
+    ();
+  // API.fetchCountries(searchQuery).then(renderCountryCard).catch(onFetchError);
 }
-// ====== перенесла выше
-// fetchCountries().then(renderCountryCard);
 
-// ====== перенесла в отд файл
-// function fetchCountries(searchQuery) {
-//   return fetch(`https://restcountries.eu/rest/v2/name/{searchQuery}`).then(response => {
-//     return response.json();
-//   });
-// }
-
-// что здесь передавать в функцию?
 function renderCountryCard(searchQuery) {
   const markUp = countryCardTmpl(searchQuery);
   refs.cardContainer.innerHTML = markUp;
 }
+function renderCountriesList(searchQuery) {
+  const markUp = countryListTmpl(searchQuery);
+  refs.cardContainer.innerHTML = markUp;
+}
 
-// const myError = error({
-//   text: "I'm an error message.",
-// });
-function onFetchError(error) {
-  alert('Хуита вышла');
+function resetPage() {
+  cardContainer.innerHTML = '';
 }

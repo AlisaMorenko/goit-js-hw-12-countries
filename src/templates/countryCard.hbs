@@ -1,4 +1,4 @@
-<div class="card">
+{{!-- <div class="card"> --}}
     {{#each this}}
     <div class="flag-img">
         <img src="{{flag}}" alt="{{name}}">
@@ -7,7 +7,7 @@
         <h1 class="card-title">{{name}}</h1>
         <p class="capital">Capital: {{capital}}</p>
         <p class="population">Population: {{population}}</p>
-        <p class="languages"><b>Languages: </b></p>
+        <p class="languages">Languages: </p>
         <ul class="list-languages">
         {{#each languages}}
         <li class="list-group-item">{{name}}</li>
@@ -15,4 +15,4 @@
         </ul>
     </div>
     {{/each}}
-</div>
+{{!-- </div> --}}
