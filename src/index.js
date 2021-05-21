@@ -28,7 +28,7 @@ function onSearch(e) {
         });
       }
     })
-    .catch(resetPage());
+    .catch(error => resetPage(error));
 }
 
 function renderCountryCard(searchQuery) {
